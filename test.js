@@ -28,3 +28,20 @@ var m11 = [[2,3,-1],
         answer0.innerHTML += a + ' ' + b + ' = ' + a.mulMatrix(b) + '<br><br>';
     });
 
+var a = [[1, 0],
+         [0, 0]].toMatrix(),
+    b = [[0, 1],
+         [0, 0]].toMatrix(),
+    c = a.mulMatrix(b),
+    d = b.mulMatrix(a);
+
+answer0.innerHTML +=
+    'A = ' + a  + ', B = ' + b + '<br><br>' +
+    'AB = ' + a.mulMatrix(b) + '<br><br>' +
+    'BA = ' + b.mulMatrix(a) + '<br><br>';
+
+if (c.isEqual(d)) {
+    answer0.innerHTML += 'AB == BA';
+} else {
+    answer0.innerHTML += 'AB != BA';
+}

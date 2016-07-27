@@ -55,18 +55,17 @@ Matrix.prototype.toString = function () {
         n = this.colomnLength,
         i,
         j,
-        result = '<table style="display: inline-block; text-align:center;' +
-        'border-style:none solid; border-radius:0.5em;">';
+        result = '<math><mfenced><mtable>';
 
-    if (window) {
+    if (typeof window !== 'undefined') {
         for (i = 1; i <= m; i += 1) {
-            result += '<tr>';
+            result += '<mtr>';
             for (j = 1; j <= n; j += 1) {
-                result += '<td>' + this.getElement(i, j) + '</td>';
+                result += '<mtd><mn>' + this.getElement(i, j) + '</mn></mtd>';
             }
-            result += '</tr>';
+            result += '</mtr>';
         }
-        result += '</table>';
+        result += '</mtable></math>';
         return result;
     }
     return this.toArray();
@@ -106,6 +105,24 @@ Matrix.prototype.setColomn = function (j, colomn) {
     for (i = 1; i <= m; i += 1) {
         this.setElement(i, j, colomn.getElement(i, 1));
     }
+};
+Matrix.prototype.isEqual = function (mat) {
+    var m = this.rowLength,
+        n = this.colomnLength,
+        i,
+        j;
+
+    if (m !== mat.rowLength || n !== mat.colomnLength) {
+        return false;
+    }
+    for (i = 1; i <= m; i += 1) {
+        for (j = 1; j <= n; j += 1) {
+            if (this.getElement(i, j) !== mat.getElement(i, j)) {
+                return false;
+            }
+        }
+    }
+    return true;
 };
 Matrix.prototype.add = function (mat) {
     var m = this.rowLength,
