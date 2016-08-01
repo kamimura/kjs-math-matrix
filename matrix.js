@@ -2,6 +2,8 @@ var Matrix;
 
 Matrix = function (m, n, fill) {
     var fill = fill || 0,
+        m = m,
+        n = n,
         matrix = [],
         i,
         j,
@@ -14,8 +16,12 @@ Matrix = function (m, n, fill) {
         }
         matrix.push(row);
     }
-    this.rowLength = m;
-    this.colomnLength = n;
+    this.rowLength = function () {
+        return m;
+    };
+    this.colomnLength = function () {
+        return n;
+    };
     this.getElement = function (i, j) {
         this.isValidIndex(m, n, i, j);
         return matrix[i-1][j-1];
@@ -37,8 +43,8 @@ Matrix.prototype.toArray = function () {
     var matrix = [],
         i,
         j,
-        m = this.rowLength,
-        n = this.colomnLength,
+        m = this.rowLength(),
+        n = this.colomnLength(),
         row;
 
     for (i = 1; i <= m; i += 1) {
@@ -51,8 +57,8 @@ Matrix.prototype.toArray = function () {
     return matrix;
 };
 Matrix.prototype.toString = function () {
-    var m = this.rowLength,
-        n = this.colomnLength,
+    var m = this.rowLength(),
+        n = this.colomnLength(),
         i,
         j,
         result = '<math><mfenced><mtable>';
@@ -72,7 +78,7 @@ Matrix.prototype.toString = function () {
 };
 Matrix.prototype.getRow = function (i) {
     var j,
-        n = this.colomnLength,
+        n = this.colomnLength(),
         row = new Matrix(1, n);
 
     for (j = 1; j <= n; j += 1) {
@@ -81,7 +87,7 @@ Matrix.prototype.getRow = function (i) {
     return row;
 };
 Matrix.prototype.getColomn = function (j) {
-    var m = this.rowLength,
+    var m = this.rowLength(),
         i,
         col = new Matrix(m, 1);
 
@@ -91,7 +97,7 @@ Matrix.prototype.getColomn = function (j) {
     return col;
 };
 Matrix.prototype.setRow = function (i, row) {
-    var n = this.colomnLength,
+    var n = this.colomnLength(),
         j;
     
     for (j = 1; j <= n; j += 1) {
@@ -99,7 +105,7 @@ Matrix.prototype.setRow = function (i, row) {
     }
 };
 Matrix.prototype.setColomn = function (j, colomn) {
-    var m = this.rowLength,
+    var m = this.rowLength(),
         i;
     
     for (i = 1; i <= m; i += 1) {
@@ -107,12 +113,12 @@ Matrix.prototype.setColomn = function (j, colomn) {
     }
 };
 Matrix.prototype.isEqual = function (mat) {
-    var m = this.rowLength,
-        n = this.colomnLength,
+    var m = this.rowLength(),
+        n = this.colomnLength(),
         i,
         j;
 
-    if (m !== mat.rowLength || n !== mat.colomnLength) {
+    if (m !== mat.rowLength() || n !== mat.colomnLength()) {
         return false;
     }
     for (i = 1; i <= m; i += 1) {
@@ -125,8 +131,8 @@ Matrix.prototype.isEqual = function (mat) {
     return true;
 };
 Matrix.prototype.add = function (mat) {
-    var m = this.rowLength,
-        n = this.colomnLength,
+    var m = this.rowLength(),
+        n = this.colomnLength(),
         matrix = new Matrix(m, n),
         i,
         j;
@@ -140,10 +146,10 @@ Matrix.prototype.add = function (mat) {
     return matrix;
 };
 Matrix.prototype.mulMatrix = function (mat) {
-    var m = this.rowLength,
-        n = this.colomnLength,
-        m0 = mat.rowLength,
-        n0 = mat.colomnLength,
+    var m = this.rowLength(),
+        n = this.colomnLength(),
+        m0 = mat.rowLength(),
+        n0 = mat.colomnLength(),
         i,
         j,
         matrix = new Matrix(m, n0),
@@ -168,8 +174,8 @@ Matrix.prototype.mulMatrix = function (mat) {
     return matrix;
 };
 Matrix.prototype.mulScalar = function (scalar) {
-    var m = this.rowLength,
-        n = this.colomnLength,
+    var m = this.rowLength(),
+        n = this.colomnLength(),
         i,
         j,
         matrix = new Matrix(m, n);
@@ -180,6 +186,39 @@ Matrix.prototype.mulScalar = function (scalar) {
         }
     }
     return matrix;
+};
+Matrix.prototype.transposed = function () {
+    var m = this.colomnLength(),
+        n = this.rowLength(),
+        i,
+        j,
+        matrix = new Matrix(m, n);
+
+    for (i = 1; i <= m; i += 1) {
+        for (j = 1; j <= n; j += 1) {
+            matrix.setElement(i, j, this.getElement(j, i));
+        }
+    }
+    return matrix;
+};
+Matrix.prototype.isSquare = function () {
+    return this.rowLength() === this.colomnLength();
+};
+Matrix.prototype.trace = function () {
+    var out = 0,
+        n = this.rowLength(),
+        i;
+
+    if (this.isSquare()) {
+        for (i = 1; i <= n; i += 1) {
+            out += this.getElement(i, i);
+        }
+        return out;
+    }
+    throw {
+        type: 'trace error',
+        message: this + ' not a Square Matrix',
+    };
 };
 
 Array.prototype.toRow = function () {

@@ -45,3 +45,13 @@ if (c.isEqual(d)) {
 } else {
     answer0.innerHTML += 'AB != BA';
 }
+answer0.innerHTML += '<br><br>';
+answer0.innerHTML += m11 + m11.transposed() + '<br><br>';
+
+try {
+    answer0.innerHTML += m31.trace() + '<br><br>';
+} catch (e) {
+    answer0.innerHTML += e.type + ': ' + e.message + '<br><br>';
+}
+
+answer0.innerHTML += 'tr' + m32 + ' = ' + m32.trace();
