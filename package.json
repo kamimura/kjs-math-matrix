@@ -1,0 +1,29 @@
+{
+  "name": "kjs-math-matrix",
+  "version": "1.0.0",
+  "description": "Matrix operations",
+  "main": "matrix.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kamimura/kjs-math-matrix.git"
+  },
+  "keywords": [
+    "math"
+  ],
+  "author": "kamimura",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kamimura/kjs-math-matrix/issues"
+  },
+  "homepage": "https://github.com/kamimura/kjs-math-matrix#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.0.0"
+  }
+}

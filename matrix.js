@@ -220,7 +220,114 @@ Matrix.prototype.trace = function () {
         message: this + ' not a Square Matrix',
     };
 };
-
+Matrix.prototype.det = function () {
+    var n,
+        i,
+        k,
+        i0,
+        j0,
+        i1,
+        j1,
+        result,
+        matrix;
+    
+    if (this.isSquare()) {        
+        n = this.rowLength();
+        if (n === 1) {
+            return this.getElement(n, n);
+        }
+        k = Math.floor(Math.random() * n) + 1;
+        result = 0;
+        for (i = 1; i <= n; i += 1) {
+            matrix = new Matrix(n - 1, n - 1);            
+            for (i0 = 1, i1 = 1; i0 <= n; i0 += 1) {
+                if (i0 === i) {
+                    continue;
+                }
+                for (j0 = 1, j1 = 1; j0 <= n; j0 += 1) {
+                    if (j0 === k) {
+                        continue;
+                    }
+                    matrix.setElement(i1, j1, this.getElement(i0, j0));
+                    j1 += 1;
+                }
+                i1 += 1;
+            }
+            result +=
+                Math.pow(-1, i + k) * this.getElement(i, k) * matrix.det();
+        }
+        return result;
+    }
+    throw {
+        type: 'det error',
+        message: this + ' not a Square Matrix'
+    };
+};
+Matrix.prototype.isRegular = function () {
+    if (!this.isSquare()) {
+        throw {
+            type: 'isRegular error',
+            message: this + ' not a Square Matrix',
+        }
+    }
+    return this.det() !== 0;
+};
+Matrix.prototype.adjoint = function () {
+    var n,
+        i,
+        j,
+        i0,
+        j0,
+        i1,
+        j1,
+        matrix0,
+        matrix1;
+    
+    if (this.isSquare()) {
+        n = this.rowLength();
+        matrix0 = new Matrix(n - 1, n - 1);
+        matrix1 = new Matrix(n, n);        
+        for (i = 1; i <= n; i += 1) {            
+            for (j = 1; j <= n; j += 1) {
+                for (i0 = 1, i1 = 1; i1 <= n; i1 += 1) {
+                    if (i1 === i) {
+                        continue;
+                    }
+                    for (j0 = 1, j1 = 1; j1 <= n; j1 += 1) {
+                        if (j1 === j) {
+                            continue;
+                        }
+                        matrix0.setElement(i0, j0, this.getElement(i1, j1));
+                        j0 += 1;
+                    }
+                    i0 += 1;
+                }
+                matrix1.setElement(j, i, Math.pow(-1, i + j) * matrix0.det());
+            }
+        }
+        return matrix1;
+    }    
+    throw {
+        type: 'isRegular error',
+        message: this + ' not a Square Matrix',
+    }        
+    
+};
+Matrix.prototype.inverse = function () {
+    if (!this.isSquare()) {
+        throw {
+            type: 'inverse error',
+            message: this + ' not a Square Matrix',
+        };
+    }
+    if (!this.isRegular()) {
+        throw {
+            type: 'inverse error',
+            message: this + ' is a Irregular Matrix',
+        };
+    }
+    return this.adjoint().mulScalar(1 / this.det());
+};
 Array.prototype.toRow = function () {
     var len = this.length,
         matrix = new Matrix(1, len),
