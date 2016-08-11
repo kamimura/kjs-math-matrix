@@ -51,7 +51,7 @@ answer0.innerHTML += m11 + m11.transposed() + '<br><br>';
 try {
     answer0.innerHTML += m31.trace() + '<br><br>';
 } catch (e) {
-    answer0.innerHTML += e.type + ': ' + e.message + '<br><br>';
+    answer0.innerHTML += e.name + ': ' + e.message + '<br><br>';
 }
 
 answer0.innerHTML += 'tr' + m32 + ' = ' + m32.trace();
