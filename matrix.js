@@ -73,7 +73,8 @@
             for (i = 1; i <= m; i += 1) {
                 result += '<mtr>';
                 for (j = 1; j <= n; j += 1) {
-                    result += '<mtd><mn>' + this.getElement(i, j) + '</mn></mtd>';
+                    result += '<mtd><mn>' + this.getElement(i, j) +
+                        '</mn></mtd>';
                 }
                 result += '</mtr>';
             }
@@ -348,7 +349,7 @@
 
         for (i = 1; i <= n; i += 1) {
             for (j = i + 1; j <= n; j += 1) {
-                if (this.getElement(i, j) != this.getElement(j, i)) {
+                if (this.getElement(i, j) !== this.getElement(j, i)) {
                     return false;
                 }
             }
