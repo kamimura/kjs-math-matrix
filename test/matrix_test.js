@@ -77,5 +77,12 @@
 
             expect(m.isSymmetric()).to.be.true;
         });
+        it('Number.mulMatrix', function () {
+            var n = 10,
+                matrix = [[10, 20],
+                          [30, 40]].toMatrix();
+            
+            expect(n.mulMatrix(matrix2).isEqual(matrix)).to.be.true;
+        });
     });
 }(this));

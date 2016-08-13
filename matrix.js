@@ -194,6 +194,21 @@
         }
         return matrix;
     };
+    Number.prototype.mulMatrix = function (mat) {
+        var m = mat.rowLength(),
+            n = mat.colomnLength(),
+            i,
+            j,
+            matrix = new Matrix(m, n);
+
+        for (i = 1; i <= m; i += 1) {
+            for (j = 1; j <= n; j += 1) {
+                matrix.setElement(i, j, this * mat.getElement(i, j));
+            }
+        }
+
+        return matrix;
+    };
     Matrix.prototype.transposed = function () {
         var m = this.colomnLength(),
             n = this.rowLength(),
